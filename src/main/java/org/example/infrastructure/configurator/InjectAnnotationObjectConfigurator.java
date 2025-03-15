@@ -3,6 +3,7 @@ package org.example.infrastructure.configurator;
 import lombok.SneakyThrows;
 import org.example.infrastructure.ApplicationContext;
 import org.example.infrastructure.annotation.Inject;
+import org.example.infrastructure.annotation.Qualifier;
 
 import java.lang.reflect.Field;
 
@@ -15,7 +16,12 @@ public class InjectAnnotationObjectConfigurator implements ObjectConfigurator {
         for (Field field : declaredFields) {
             if (field.isAnnotationPresent(Inject.class)) {
                 field.setAccessible(true);
-                field.set(obj, context.getObject(field.getType()));
+
+                if(field.isAnnotationPresent(Qualifier.class))
+                    field.set(obj, context.getObject(field.getAnnotation(Qualifier.class).value()));
+                else
+                    field.set(obj, context.getObject(field.getType()));
+
             }
         }
     }

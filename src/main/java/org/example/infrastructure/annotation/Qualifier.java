@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Singleton {
+@Target(ElementType.FIELD)
+public @interface Qualifier {
+    Class<?> value();
 }

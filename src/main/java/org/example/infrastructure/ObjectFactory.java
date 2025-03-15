@@ -1,12 +1,13 @@
 package org.example.infrastructure;
 
 import lombok.SneakyThrows;
+import org.example.infrastructure.annotation.PostConstruct;
 import org.example.infrastructure.configreader.ObjectConfigReader;
 import org.example.infrastructure.configurator.ObjectConfigurator;
 import org.example.infrastructure.proxywrapper.ProxyWrapper;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +48,11 @@ public class ObjectFactory {
 
         for (ObjectConfigurator objectConfigurator : objectConfigurators) {
             objectConfigurator.configure(obj, applicationContext);
+        }
+
+        for (Method method : obj.getClass().getMethods()) {
+            if(method.isAnnotationPresent(PostConstruct.class))
+                method.invoke(obj);
         }
 
         for (ProxyWrapper proxyWrapper : proxyWrappers) {

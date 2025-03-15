@@ -1,16 +1,19 @@
 package org.example.app;
 
 
-import org.example.infrastructure.annotation.Inject;
-import org.example.infrastructure.annotation.Log;
+import org.example.infrastructure.annotation.*;
 
 @Log
+@Component
+@Scope
 public class UserRegistrationService {
 
     @Inject
+    @Qualifier(UserInMemoryRepository.class)
     private UserRepository userRepository;
 
     @Inject
+    @Qualifier(BetterEmailSender.class)
     private EmailSender emailSender;
 
     public void register(User user) {

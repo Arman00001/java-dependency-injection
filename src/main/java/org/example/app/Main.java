@@ -17,5 +17,29 @@ public class Main {
                         "password123"
                 )
         );
+        registrationService.register(new User(
+                "Arman",
+                "somemail@gmail.com",
+                "pass111222"
+        ));
+
+        //Checking @Property
+        UserAuthenticator userAuthenticator = context.getObject(UserAuthenticator.class);
+        System.out.println(userAuthenticator.getUsername());
+        System.out.println(userAuthenticator.getDataSourcePassword());
+
+
+        //Checking @Cacheable and @CacheKey
+        UserService userService = context.getObject(UserService.class);
+
+        System.out.println(userService.getUser("Gurgen"));
+        System.out.println();
+        System.out.println(userService.getUser("Gurgen"));
+        System.out.println();
+        System.out.println(userService.getUser("Arman"));
+        System.out.println();
+        System.out.println(userService.getUser("Arman"));
+        System.out.println();
+        System.out.println(userService.getUser("Gurgen"));
     }
 }

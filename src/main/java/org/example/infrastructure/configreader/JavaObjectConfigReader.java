@@ -1,10 +1,9 @@
 package org.example.infrastructure.configreader;
 
+import org.example.infrastructure.annotation.Component;
 import org.reflections.Reflections;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public class JavaObjectConfigReader implements ObjectConfigReader {
@@ -18,7 +17,8 @@ public class JavaObjectConfigReader implements ObjectConfigReader {
     @Override
     public <T> Class<? extends T> getImplClass(Class<T> cls) {
         if (!cls.isInterface()) {
-            return cls;
+            if(cls.isAnnotationPresent(Component.class)) return cls;
+            return null;
         }
 
         Set<Class<? extends T>> subTypesOf =
@@ -28,7 +28,11 @@ public class JavaObjectConfigReader implements ObjectConfigReader {
             throw new RuntimeException("Interface should have only one implementation");
         }
 
-        return subTypesOf.iterator().next();
+        Class<? extends T> t = subTypesOf.iterator().next();
+
+        if(t.isAnnotationPresent(Component.class)) return t;
+
+        return null;
     }
 
     @Override
