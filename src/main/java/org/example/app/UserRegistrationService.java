@@ -9,7 +9,7 @@ import org.example.infrastructure.annotation.*;
 public class UserRegistrationService {
 
     @Inject
-    @Qualifier(UserInMemoryRepository.class)
+    @Qualifier(DatabaseRepository.class)
     private UserRepository userRepository;
 
     @Inject

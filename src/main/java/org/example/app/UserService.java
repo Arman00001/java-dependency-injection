@@ -7,7 +7,7 @@ import org.example.infrastructure.annotation.*;
 public class UserService {
 
     @Inject
-    @Qualifier(UserInMemoryRepository.class)
+    @Qualifier(DatabaseRepository.class)
     private UserRepository userRepository;
 
     @PostConstruct

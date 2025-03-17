@@ -1,9 +1,6 @@
 package org.example.app;
 
-import org.example.infrastructure.annotation.Component;
-import org.example.infrastructure.annotation.Env;
-import org.example.infrastructure.annotation.Log;
-import org.example.infrastructure.annotation.PostConstruct;
+import org.example.infrastructure.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +35,8 @@ public class DatabaseRepository implements UserRepository {
     }
 
     @Override
-    public User getUser(String username) {
+    @Cacheable
+    public User getUser(@CacheKey String username) {
         System.out.println("Searching the database");
         for (User user : users) {
             if (user.getUsername().equals(username)) {

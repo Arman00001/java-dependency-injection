@@ -1,7 +1,7 @@
 package org.example.infrastructure.configurator;
 
 import lombok.SneakyThrows;
-import org.example.app.PropertyLoader;
+import org.example.infrastructure.loader.PropertyLoader;
 import org.example.infrastructure.ApplicationContext;
 import org.example.infrastructure.annotation.Property;
 
