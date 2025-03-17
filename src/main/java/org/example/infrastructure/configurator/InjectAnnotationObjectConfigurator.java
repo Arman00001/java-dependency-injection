@@ -17,12 +17,15 @@ public class InjectAnnotationObjectConfigurator implements ObjectConfigurator {
             if (field.isAnnotationPresent(Inject.class)) {
                 field.setAccessible(true);
 
-                if(field.isAnnotationPresent(Qualifier.class))
-                    field.set(obj, context.getObject(field.getAnnotation(Qualifier.class).value()));
-                else
-                    field.set(obj, context.getObject(field.getType()));
+                Qualifier qualifier = field.getAnnotation(Qualifier.class);
 
+                field.set(obj, context.getObject(field.getType(),getQualifierType(qualifier,field)));
             }
         }
+    }
+
+    private Class<?> getQualifierType(Qualifier qualifier, Field field){
+        if(qualifier!=null) return qualifier.value();
+        return field.getType();
     }
 }

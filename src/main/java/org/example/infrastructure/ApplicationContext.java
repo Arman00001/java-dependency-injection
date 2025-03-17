@@ -42,4 +42,8 @@ public class ApplicationContext {
 
         return object;
     }
+
+    public <T> T getObject(Class<T> cls, Class<?> qualifierType){
+        return getObject(objectConfigReader.getImplClass(cls,qualifierType));
+    }
 }

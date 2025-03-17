@@ -1,5 +1,6 @@
 package org.example.app;
 
+import lombok.Getter;
 import org.example.infrastructure.annotation.*;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 @Log
 public class DatabaseRepository implements UserRepository {
 
+    @Getter
     @Env
     private String databaseUrl;
 
@@ -25,6 +27,7 @@ public class DatabaseRepository implements UserRepository {
     @PostConstruct
     public void secondPhaseConstructor(){
         System.out.println("DatabaseRepository secondPhaseConstructor call");
+        System.out.println(databaseUrl);
     }
 
     @Override

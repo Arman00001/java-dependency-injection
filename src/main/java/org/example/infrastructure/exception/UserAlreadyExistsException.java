@@ -1,4 +1,4 @@
-package org.example.app;
+package org.example.infrastructure.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

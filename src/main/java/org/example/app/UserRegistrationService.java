@@ -2,6 +2,7 @@ package org.example.app;
 
 
 import org.example.infrastructure.annotation.*;
+import org.example.infrastructure.exception.UserAlreadyExistsException;
 
 @Log
 @Component
@@ -9,7 +10,7 @@ import org.example.infrastructure.annotation.*;
 public class UserRegistrationService {
 
     @Inject
-    @Qualifier(DatabaseRepository.class)
+    @Qualifier(UserInMemoryRepository.class)
     private UserRepository userRepository;
 
     @Inject

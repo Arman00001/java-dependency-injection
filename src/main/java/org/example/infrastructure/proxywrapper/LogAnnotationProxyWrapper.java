@@ -4,6 +4,7 @@ import net.sf.cglib.proxy.Enhancer;
 import org.example.infrastructure.annotation.Log;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
@@ -32,12 +33,7 @@ public class LogAnnotationProxyWrapper implements ProxyWrapper {
                     new InvocationHandler() {
                         @Override
                         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                            if(cls.isAnnotationPresent(Log.class) ||
-                                    cls.getDeclaredMethod(method.getName(), method.getParameterTypes()).isAnnotationPresent(Log.class))
-                                System.out.printf(
-                                        "Calling method: %s. Args: %s\n", method.getName(), Arrays.toString(args));
-
-                            return method.invoke(obj, args);
+                            return invokationHandler(method, args, cls, obj);
                         }
                     }
             );
@@ -48,15 +44,19 @@ public class LogAnnotationProxyWrapper implements ProxyWrapper {
                 new net.sf.cglib.proxy.InvocationHandler() {
                     @Override
                     public Object invoke(Object o, Method method, Object[] args) throws Throwable {
-                        if(cls.isAnnotationPresent(Log.class) ||
-                                cls.getDeclaredMethod(method.getName(), method.getParameterTypes()).isAnnotationPresent(Log.class))
-                            System.out.printf(
-                                "Calling method: %s. Args: %s\n", method.getName(), Arrays.toString(args));
-
-                        return method.invoke(obj, args);
+                        return invokationHandler(method, args, cls, obj);
                     }
                 }
         );
+    }
+
+    private static <T> Object invokationHandler(Method method, Object[] args, Class<T> cls, T obj) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        if(cls.isAnnotationPresent(Log.class) ||
+                cls.getDeclaredMethod(method.getName(), method.getParameterTypes()).isAnnotationPresent(Log.class))
+            System.out.printf(
+                    "Calling method: %s. Args: %s\n", method.getName(), Arrays.toString(args));
+
+        return method.invoke(obj, args);
     }
 
 }
